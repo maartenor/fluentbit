@@ -31,6 +31,16 @@ spec:
           args:
             - --workdir=/fluent-bit/etc
             - --config=/fluent-bit/etc/conf/fluent-bit.conf
+          securityContext:
+            runAsUser: 0
+            capabilities:
+              add:
+                - DAC_READ_SEARCH
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           ports:
             - name: http
               containerPort: 2020

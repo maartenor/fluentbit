@@ -37,6 +37,17 @@ data:
         Skip_Long_Lines On
 
     [INPUT]
+        Name tail
+        Path /var/log/*.log,/var/log/**
+        Exclude_Path /var/log/containers/*,/var/log/pods/**,/var/log/fluentbit*
+        Tag hostlog.*
+        DB /var/log/fluentbit-hostlog.db
+        Path_Key filename
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+        Refresh_Interval 10
+
+    [INPUT]
         Name systemd
         Tag host.*
         Systemd_Filter _SYSTEMD_UNIT=kubelet.service
@@ -52,8 +63,15 @@ data:
 
     [OUTPUT]
         Name        loki
-        Match       *
+        Match       kube.*
         Host        loki.monitoring.svc.cluster.local
         Port        3100
-        Labels      job=fluentbit, namespace=$kubernetes['namespace_name'], host=$kubernetes['host'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name']
+        Labels      job=fluentbit, host=${NODE_NAME}, namespace=$kubernetes['namespace_name'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name']
         Auto_kubernetes_labels on
+
+    [OUTPUT]
+        Name        loki
+        Match       host*
+        Host        loki.monitoring.svc.cluster.local
+        Port        3100
+        Labels      job=fluentbit, host=${NODE_NAME}
