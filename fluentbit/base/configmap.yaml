@@ -55,5 +55,5 @@ data:
         Match       *
         Host        loki.monitoring.svc.cluster.local
         Port        3100
-        Labels      job=fluentbit
+        Labels      job=fluentbit, namespace=$kubernetes['namespace_name'], host=$kubernetes['host'], pod=$kubernetes['pod_name'], container=$kubernetes['container_name']
         Auto_kubernetes_labels on
