@@ -1,0 +1,13 @@
+# Editor temp files
+*.swp
+*.swo
+*~
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Local kustomize output
+output/
+rendered/
