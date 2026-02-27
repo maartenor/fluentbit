@@ -4,6 +4,11 @@ Kubernetes manifests for deploying [Fluent-bit](https://fluentbit.io/) (log coll
 
 Fluent-bit runs as a DaemonSet on every node, collects container and systemd logs, and forwards them to Loki. Loki stores and indexes the logs for querying in Grafana.
 
+![Fluent-bit](https://fluentbit.io/images/hero.svg)
+
+![Grafana Loki Architecture](https://www.atatus.com/blog/content/images/size/w1000/2022/02/grafana-loki-work.png)
+
+
 ---
 
 ## Project Structure
@@ -116,6 +121,9 @@ kubectl exec -n monitoring <loki-pod> -- \
 ```
 
 ### Grafana
+
+![Loki Drill Down](https://grafana.com/media/docs/loki/get-started-drill-down-container.png?w=1040)
+
 
 1. **Add Loki as a data source** — navigate to *Connections → Data sources → Add data source → Loki* and set the URL to `http://loki.monitoring.svc.cluster.local:3100`. Click *Save & test* — a green banner confirms connectivity.
 
