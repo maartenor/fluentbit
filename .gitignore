@@ -7,7 +7,9 @@
 # IDE
 .idea/
 .vscode/
+.claude/
 
 # Local kustomize output
 output/
 rendered/
+.claude/settings.local.json
