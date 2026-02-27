@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: loki
   namespace: argocd
+  labels:
+    app.kubernetes.io/name: loki
+    app.kubernetes.io/instance: prod
+    environment: production
 spec:
   project: default
   source:

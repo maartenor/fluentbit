@@ -3,6 +3,10 @@ kind: Application
 metadata:
   name: fluent-bit
   namespace: argocd
+  labels:
+    app.kubernetes.io/name: fluent-bit
+    app.kubernetes.io/instance: prod
+    environment: production
 spec:
   project: default
   source:
