@@ -2,7 +2,7 @@
 
 Kubernetes manifests for deploying [Fluent-bit](https://fluentbit.io/) (log collector) and [Grafana Loki](https://grafana.com/oss/loki/) (log aggregation) via [ArgoCD](https://argo-cd.readthedocs.io/).
 
-Fluent-bit runs as a DaemonSet on every node, collects container and systemd logs, and forwards them to Loki. Loki stores and indexes the logs for querying in Grafana.
+Fluent-bit runs as a DaemonSet on every node, collects container and systemd logs, and forwards them to Loki. Loki stores and indexes the logs for querying in Grafana. Enables to analyze the logs in Grafana or use an MCP server to do that using (Agentic) AI or a chat LMM.
 
 ![Fluent-bit](https://fluentbit.io/images/hero.svg)
 
@@ -132,3 +132,15 @@ kubectl exec -n monitoring <loki-pod> -- \
    {job="fluentbit"}
    ```
    You should see a live stream of log lines from across the cluster.
+
+### MCP server
+To install a Model Context Protocol server for this Loki instance (using https://github.com/tumf/grafana-loki-mcp).
+
+```bash
+claude mcp add grafana-loki     
+  --env GRAFANA_URL=$LOKI_URL                       # e.g. http://192.168.1.10
+  --env GRAFANA_API_KEY=$GRAFANA_LOKI_MCP_API_KEY   # Grafana API key of type 'Viewer'
+  -- uvx --with "fastmcp<2.0.0" grafana-loki-mcp    # fastmcp deprication from 2.0.0
+
+# Expected : Added stdio MCP server grafana-loki with command: uvx --with fastmcp<2.0.0 grafana-loki-mcp to local config
+```
